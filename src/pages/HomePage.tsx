@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { FlaskConical, Search } from 'lucide-react'
+import { Search } from 'lucide-react'
 
 export default function HomePage() {
   const [q, setQ] = useState('')
@@ -14,24 +14,38 @@ export default function HomePage() {
 
   return (
     <div className="min-h-[85vh] flex flex-col items-center justify-center px-4 bg-white">
-      <FlaskConical className="h-12 w-12 text-blue-600 mb-6" />
-      <h1 className="text-3xl font-bold text-gray-800 mb-2">ChemShop</h1>
-      <p className="text-gray-400 mb-10 text-sm">연구실 시약 전문 쇼핑몰</p>
+      <h1 className="text-5xl font-bold text-blue-600 mb-10 tracking-tight">ChemShop</h1>
 
-      <form onSubmit={handleSearch} className="w-full max-w-lg flex shadow-md rounded-2xl overflow-hidden border border-gray-200">
-        <input
-          value={q}
-          onChange={e => setQ(e.target.value)}
-          placeholder="CAS 번호 또는 시약명 입력  예) 64-17-5"
-          className="flex-1 px-5 py-4 text-gray-800 text-sm outline-none placeholder-gray-400"
-        />
-        <button
-          type="submit"
-          className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-4 flex items-center gap-2 transition-colors font-semibold"
-        >
-          <Search className="h-4 w-4" />
-          검색
-        </button>
+      <form onSubmit={handleSearch} className="w-full max-w-2xl">
+        <div className="flex items-center border border-gray-300 rounded-full px-6 py-4 shadow-sm hover:shadow-md focus-within:shadow-md transition-shadow bg-white gap-3">
+          <Search className="h-5 w-5 text-gray-400 flex-shrink-0" />
+          <input
+            value={q}
+            onChange={e => setQ(e.target.value)}
+            placeholder="CAS 번호 또는 시약명으로 검색"
+            className="flex-1 text-gray-800 text-lg outline-none placeholder-gray-400 bg-transparent"
+          />
+          {q && (
+            <button type="button" onClick={() => setQ('')} className="text-gray-400 hover:text-gray-600 text-xl leading-none">
+              ×
+            </button>
+          )}
+        </div>
+        <div className="flex justify-center mt-6 gap-3">
+          <button
+            type="submit"
+            className="bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm px-5 py-2.5 rounded-full transition-colors"
+          >
+            시약 검색
+          </button>
+          <button
+            type="button"
+            onClick={() => navigate('/products')}
+            className="bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm px-5 py-2.5 rounded-full transition-colors"
+          >
+            전체 시약 보기
+          </button>
+        </div>
       </form>
     </div>
   )
