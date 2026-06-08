@@ -1,14 +1,17 @@
-import { Link } from 'react-router-dom'
-import { FlaskConical, Truck, ShieldCheck, Clock } from 'lucide-react'
-
-const CATEGORIES = [
-  { name: '유기용매', icon: '🧪', q: '유기용매' },
-  { name: '산/염기', icon: '⚗️', q: '산' },
-  { name: '무기염류', icon: '🔬', q: '염화나트륨' },
-  { name: '특수시약', icon: '💊', q: '특수' },
-]
+import { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { FlaskConical, Truck, ShieldCheck, Clock, Search } from 'lucide-react'
 
 export default function HomePage() {
+  const [q, setQ] = useState('')
+  const navigate = useNavigate()
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (q.trim()) navigate(`/products?q=${encodeURIComponent(q.trim())}`)
+    else navigate('/products')
+  }
+
   return (
     <div>
       {/* 히어로 */}
@@ -19,31 +22,26 @@ export default function HomePage() {
           </div>
           <h1 className="text-4xl font-bold mb-3">연구실 시약 전문 쇼핑몰</h1>
           <p className="text-blue-200 text-lg mb-8">
-            ChemLab Manager에서 구매 필요 표시한 시약을 바로 주문하세요
+            CAS 번호 또는 시약명으로 바로 검색하세요
           </p>
-          <Link
-            to="/products"
-            className="inline-block bg-white text-blue-700 font-bold px-8 py-3 rounded-xl hover:bg-blue-50 transition-colors text-lg"
-          >
-            시약 둘러보기 →
-          </Link>
-        </div>
-      </section>
-
-      {/* 카테고리 */}
-      <section className="max-w-6xl mx-auto px-4 py-12">
-        <h2 className="text-xl font-bold text-gray-800 mb-6">카테고리</h2>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {CATEGORIES.map(c => (
-            <Link
-              key={c.name}
-              to={`/products?q=${encodeURIComponent(c.q)}`}
-              className="bg-white rounded-2xl p-6 text-center shadow-sm border border-gray-100 hover:shadow-md hover:border-blue-200 transition-all"
+          {/* CAS 번호 검색 */}
+          <form onSubmit={handleSearch} className="flex max-w-lg mx-auto gap-2">
+            <input
+              value={q}
+              onChange={e => setQ(e.target.value)}
+              placeholder="CAS 번호 또는 시약명 입력 (예: 64-17-5)"
+              className="flex-1 px-4 py-3 rounded-xl text-gray-800 text-sm outline-none"
+            />
+            <button
+              type="submit"
+              className="bg-white text-blue-700 font-bold px-5 py-3 rounded-xl hover:bg-blue-50 transition-colors flex items-center gap-1"
             >
-              <div className="text-3xl mb-2">{c.icon}</div>
-              <p className="font-semibold text-gray-700">{c.name}</p>
-            </Link>
-          ))}
+              <Search className="h-4 w-4" /> 검색
+            </button>
+          </form>
+          <Link to="/products" className="inline-block mt-4 text-blue-200 text-sm hover:text-white underline">
+            전체 시약 보기 →
+          </Link>
         </div>
       </section>
 
