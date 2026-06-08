@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Search } from 'lucide-react'
+import { FlaskConical, Search } from 'lucide-react'
 
 export default function HomePage() {
   const [q, setQ] = useState('')
@@ -14,8 +14,15 @@ export default function HomePage() {
 
   return (
     <div className="min-h-[85vh] flex flex-col items-center justify-center px-4 bg-white">
-      <h1 className="text-5xl font-bold text-blue-600 mb-10 tracking-tight">ChemShop</h1>
 
+      {/* 로고 */}
+      <div className="flex flex-col items-center mb-16">
+        <FlaskConical className="h-14 w-14 text-blue-600 mb-3" />
+        <h1 className="text-4xl font-bold text-gray-800">ChemShop</h1>
+        <p className="text-gray-400 text-sm mt-2">연구실 시약 전문 쇼핑몰</p>
+      </div>
+
+      {/* 검색창 */}
       <form onSubmit={handleSearch} className="w-full max-w-2xl">
         <div className="flex items-center border border-gray-300 rounded-full px-6 py-4 shadow-sm hover:shadow-md focus-within:shadow-md transition-shadow bg-white gap-3">
           <Search className="h-5 w-5 text-gray-400 flex-shrink-0" />
@@ -47,6 +54,7 @@ export default function HomePage() {
           </button>
         </div>
       </form>
+
     </div>
   )
 }
